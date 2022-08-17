@@ -1,0 +1,20 @@
+.inputWrapper {
+  display: flex;
+  gap: 0.5rem;
+
+  > input {
+    background: var(--gray-500);
+
+    border: 1px solid transparent;
+    border-radius: 8px;
+
+    flex: 1;
+    color: var(--gray-100);
+    padding: 16px;
+
+    &:focus {
+      border-color: var(--purple-500);
+      outline: 0;
+    }
+  }
+}
