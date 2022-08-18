@@ -47,6 +47,10 @@ button {
   cursor: pointer;
 }
 
+:focus {
+  outline: 1px solid var(--blue-500);
+}
+
 .container {
   max-width: 49rem;
   margin: 0 auto;
