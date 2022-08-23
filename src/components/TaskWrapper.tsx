@@ -1,18 +1,28 @@
+import { HTMLAttributes } from 'react';
 import styles from './TaskWrapper.module.scss';
 
-import IconCheck from '../assets/icon-check.svg';
-import IconTrash from '../assets/icon-trash.svg';
-import IconCheckUnfilled from '../assets/icon-check-unfilled.svg';
-
-interface TaskWrapperProps {
+interface TaskWrapperProps extends HTMLAttributes<HTMLDivElement> {
   title: string;
   isFinished: boolean;
+  handleFinishAndUndoFinishTask: (id: number, finish: boolean) => void;
+  taskId: number;
+  handleDeleteTask: (id: number) => void;
 }
 
-export function TaskWrapper({ title, isFinished }: TaskWrapperProps) {
+export function TaskWrapper({
+  title,
+  isFinished,
+  handleFinishAndUndoFinishTask,
+  taskId,
+  handleDeleteTask,
+  ...props
+}: TaskWrapperProps) {
   return (
-    <div className={styles.taskWrapper}>
-      <button className={styles.statusIcon}>
+    <div className={styles.taskWrapper} {...props}>
+      <button
+        className={styles.statusIcon}
+        onClick={() => handleFinishAndUndoFinishTask(taskId, !isFinished)}
+      >
         {isFinished ? (
           <svg
             width="24"
@@ -54,7 +64,10 @@ export function TaskWrapper({ title, isFinished }: TaskWrapperProps) {
 
       <p>{title}</p>
 
-      <button className={styles.trashIcon}>
+      <button
+        className={styles.trashIcon}
+        onClick={() => handleDeleteTask(taskId)}
+      >
         <svg
           width="24"
           height="24"

@@ -1,20 +1,69 @@
+import { TaskListTable } from './components/TaskListTable';
+import { Header } from './components/Header';
+import { Input } from './components/Input';
 
-import { TaskListTable } from './components/TaskListTable'
-import { Header } from './components/Header'
-import { Input } from './components/Input'
+import './global.scss';
+import styles from './App.module.scss';
+import { useState } from 'react';
 
-import './global.scss'
-import styles from './App.module.scss'
+type Task = {
+  id: number;
+  title: string;
+  isDone: boolean;
+};
 
 export function App() {
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  function handleCreateNewTask(task: string) {
+    const newTask = {
+      id: Number(new Date()),
+      title: task,
+      isDone: false,
+    };
+
+    setTasks((tasks) => [newTask, ...tasks]);
+  }
+
+  function handleFinishAndUndoFinishTask(id: number, finish: boolean) {
+    const tasksCopy = Array.from(tasks);
+    const taskExists = tasksCopy.find((item) => item.id === id);
+
+    if (!taskExists) {
+      return;
+    }
+
+    tasksCopy.splice(
+      tasksCopy.findIndex((item) => item.id === id),
+      1,
+      { ...taskExists, isDone: finish },
+    );
+
+    setTasks(tasksCopy);
+  }
+
+  function handleDeleteTask(id: number) {
+    const taskExists = tasks.find((item) => item.id === id);
+
+    if (!taskExists) {
+      return;
+    }
+
+    setTasks((tasks) => tasks.filter((item) => item.id !== id));
+  }
+
   return (
     <div className={styles.app}>
       <Header />
       <main className="container">
-        <Input />
+        <Input handleCreateNewTask={handleCreateNewTask} />
 
-        <TaskListTable />
+        <TaskListTable
+          tasks={tasks}
+          handleFinishAndUndoFinishTask={handleFinishAndUndoFinishTask}
+          handleDeleteTask={handleDeleteTask}
+        />
       </main>
     </div>
-  )
+  );
 }

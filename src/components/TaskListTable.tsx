@@ -1,51 +1,54 @@
 import styles from './TaskListTable.module.scss';
 import { TaskWrapper } from './TaskWrapper';
 
-const TASKS = [
-  {
-    title: 'Integer urna interdum massa libero auctor neque',
-    isFinished: false,
-  },
-  {
-    title: 'Integer urna interdum massa libero auctor neque',
-    isFinished: false,
-  },
-  {
-    title: 'Integer urna interdum massa libero auctor neque',
-    isFinished: true,
-  },
-  {
-    title: 'Integer urna interdum massa libero auctor neque',
-    isFinished: false,
-  },
-  {
-    title: 'Integer urna interdum massa libero auctor neque',
-    isFinished: true,
-  },
-  {
-    title: 'Integer urna interdum massa libero auctor neque',
-    isFinished: false,
-  },
-];
+type Task = {
+  id: number;
+  title: string;
+  isDone: boolean;
+};
 
-export function TaskListTable() {
+interface TaskListTableProps {
+  tasks: Task[];
+  handleFinishAndUndoFinishTask: (id: number, finish: boolean) => void;
+  handleDeleteTask: (id: number) => void;
+}
+
+export function TaskListTable({
+  tasks,
+  handleFinishAndUndoFinishTask,
+  handleDeleteTask,
+}: TaskListTableProps) {
+  const tasksCount = tasks.length;
+  const finishedTasksCount = tasks.reduce((acc, task) => {
+    acc += task.isDone ? 1 : 0;
+
+    return acc;
+  }, 0);
+
   return (
     <div className={styles.taskContainer}>
       <header className={styles.tableHeader}>
         <span>
           Tarefas criadas
-          <span>5</span>
+          <span>{tasksCount}</span>
         </span>
 
         <span>
           Concluídas
-          <span>2 de 5</span>
+          <span>{`${finishedTasksCount} de ${tasksCount}`}</span>
         </span>
       </header>
 
       <div className={styles.tableList}>
-        {TASKS.map((task, index) => (
-          <TaskWrapper title="banan" isFinished={index === 0}/>
+        {tasks.map((task) => (
+          <TaskWrapper
+            key={task.id}
+            taskId={task.id}
+            title={task.title}
+            isFinished={task.isDone}
+            handleFinishAndUndoFinishTask={handleFinishAndUndoFinishTask}
+            handleDeleteTask={handleDeleteTask}
+          />
         ))}
       </div>
     </div>
