@@ -29,6 +29,7 @@
       }
 
       &:before {
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
@@ -36,7 +37,6 @@
         border-radius: 100%;
 
         display: block;
-        content: "";
         height: 17.45px;
         width: 17.45px;
 
@@ -61,5 +61,12 @@
         }
       }
     }
+  }
+}
+
+.taskFinished {
+  > p {
+    text-decoration: line-through;
+    color: var(--gray-300);
   }
 }

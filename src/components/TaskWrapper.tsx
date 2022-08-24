@@ -18,7 +18,12 @@ export function TaskWrapper({
   ...props
 }: TaskWrapperProps) {
   return (
-    <div className={styles.taskWrapper} {...props}>
+    <div
+      className={`${styles.taskWrapper} ${
+        isFinished ? styles.taskFinished : ''
+      }`}
+      {...props}
+    >
       <button
         className={styles.statusIcon}
         onClick={() => handleFinishAndUndoFinishTask(taskId, !isFinished)}
