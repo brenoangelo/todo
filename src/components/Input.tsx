@@ -29,6 +29,7 @@ export function Input({ handleCreateNewTask }: InputProps) {
         placeholder="Adicione uma nova tarefa"
         onChange={(event) => setNewTask(event.target.value)}
         value={newTask}
+        maxLength={144}
       />
       <Button type="submit">
         Criar

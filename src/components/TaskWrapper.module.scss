@@ -12,6 +12,11 @@
   border-radius: 8px;
   border: 1px solid var(--gray-500);
 
+  p {
+    align-self: center;
+    word-break: break-all;
+  }
+
   button {
     cursor: pointer;
     line-height: 0;
