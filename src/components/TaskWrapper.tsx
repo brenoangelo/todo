@@ -4,9 +4,9 @@ import styles from './TaskWrapper.module.scss';
 interface TaskWrapperProps extends HTMLAttributes<HTMLDivElement> {
   title: string;
   isFinished: boolean;
-  handleFinishAndUndoFinishTask: (id: number, finish: boolean) => void;
-  taskId: number;
-  handleDeleteTask: (id: number) => void;
+  handleFinishAndUndoFinishTask: (id: string, finish: boolean) => void;
+  taskId: string;
+  handleDeleteTask: (id: string) => void;
 }
 
 export function TaskWrapper({

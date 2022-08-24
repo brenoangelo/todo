@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { TaskListTable } from './components/TaskListTable';
 import { Header } from './components/Header';
 import { Input } from './components/Input';
@@ -7,7 +9,7 @@ import styles from './App.module.scss';
 import { useState } from 'react';
 
 type Task = {
-  id: number;
+  id: string;
   title: string;
   isDone: boolean;
 };
@@ -17,7 +19,7 @@ export function App() {
 
   function handleCreateNewTask(task: string) {
     const newTask = {
-      id: Number(new Date()),
+      id: uuidv4(),
       title: task,
       isDone: false,
     };
@@ -25,7 +27,7 @@ export function App() {
     setTasks((tasks) => [newTask, ...tasks]);
   }
 
-  function handleFinishAndUndoFinishTask(id: number, finish: boolean) {
+  function handleFinishAndUndoFinishTask(id: string, finish: boolean) {
     const tasksCopy = Array.from(tasks);
     const taskExists = tasksCopy.find((item) => item.id === id);
 
@@ -42,7 +44,7 @@ export function App() {
     setTasks(tasksCopy);
   }
 
-  function handleDeleteTask(id: number) {
+  function handleDeleteTask(id: string) {
     const taskExists = tasks.find((item) => item.id === id);
 
     if (!taskExists) {

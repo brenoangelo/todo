@@ -2,15 +2,15 @@ import styles from './TaskListTable.module.scss';
 import { TaskWrapper } from './TaskWrapper';
 
 type Task = {
-  id: number;
+  id: string;
   title: string;
   isDone: boolean;
 };
 
 interface TaskListTableProps {
   tasks: Task[];
-  handleFinishAndUndoFinishTask: (id: number, finish: boolean) => void;
-  handleDeleteTask: (id: number) => void;
+  handleFinishAndUndoFinishTask: (id: string, finish: boolean) => void;
+  handleDeleteTask: (id: string) => void;
 }
 
 export function TaskListTable({
