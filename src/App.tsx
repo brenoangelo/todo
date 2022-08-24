@@ -6,7 +6,8 @@ import { Input } from './components/Input';
 
 import './global.scss';
 import styles from './App.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 type Task = {
   id: string;
@@ -15,7 +16,14 @@ type Task = {
 };
 
 export function App() {
+  const [storage, setStorage] = useLocalStorage<Task[]>();
   const [tasks, setTasks] = useState<Task[]>([]);
+
+  useEffect(() => {
+    if (storage) {
+      setTasks(storage);
+    }
+  }, []);
 
   function handleCreateNewTask(task: string) {
     const newTask = {
@@ -24,7 +32,12 @@ export function App() {
       isDone: false,
     };
 
-    setTasks((tasks) => [newTask, ...tasks]);
+    setTasks((tasks) => {
+      const newTaskList = [newTask, ...tasks];
+      setStorage('tasks', newTaskList);
+
+      return newTaskList;
+    });
   }
 
   function handleFinishAndUndoFinishTask(id: string, finish: boolean) {
@@ -42,6 +55,7 @@ export function App() {
     );
 
     setTasks(tasksCopy);
+    setStorage('tasks', tasksCopy);
   }
 
   function handleDeleteTask(id: string) {
@@ -51,7 +65,12 @@ export function App() {
       return;
     }
 
-    setTasks((tasks) => tasks.filter((item) => item.id !== id));
+    setTasks((tasks) => {
+      const tasksUpdated = tasks.filter((item) => item.id !== id);
+
+      setStorage('tasks', tasksUpdated);
+      return tasksUpdated;
+    });
   }
 
   return (
